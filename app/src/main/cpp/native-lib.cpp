@@ -2,24 +2,17 @@
 #include <string>
 #include <cstring>
 
+#include "JNIAccess.h"
 
 #define HOGE_CLASS_NAME "org/nunocky/jnisample01/Hoge"
 #define POINT_CLASS_NAME "org/nunocky/jnisample01/Point"
 
 static void Hoge_setText(JNIEnv *env, jobject hoge, const std::string &str) {
-    jclass cls = env->FindClass(HOGE_CLASS_NAME);
-    jfieldID textID = env->GetFieldID(cls, "text", "Ljava/lang/String;");
-
-    jstring newText = env->NewStringUTF(str.c_str());
-
-    env->SetObjectField(hoge, textID, newText);
+    JNIAccess_Obj_SetStringField(env, HOGE_CLASS_NAME, hoge, "text", str);
 }
 
 static void Hoge_setNumber(JNIEnv *env, jobject hoge, int16_t num) {
-    jclass cls = env->FindClass(HOGE_CLASS_NAME);
-    jfieldID numberID = env->GetFieldID(cls, "number", "I");
-
-    env->SetIntField(hoge, numberID, num);
+    JNIAccess_Obj_SetIntField(env, HOGE_CLASS_NAME, hoge, "number", num);
 }
 
 static void Hoge_addPoint(JNIEnv *env, jobject hoge, int16_t x, int16_t y) {
