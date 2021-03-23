@@ -7,13 +7,13 @@
 #define HOGE_CLASS_NAME "org/nunocky/jnisample01/Hoge"
 #define POINT_CLASS_NAME "org/nunocky/jnisample01/Point"
 
-static void Hoge_setText(JNIEnv *env, jobject hoge, const std::string &str) {
-    JNIAccess_Obj_SetStringField(env, HOGE_CLASS_NAME, hoge, "text", str);
-}
-
-static void Hoge_setNumber(JNIEnv *env, jobject hoge, int16_t num) {
-    JNIAccess_Obj_SetIntField(env, HOGE_CLASS_NAME, hoge, "number", num);
-}
+//static void Hoge_setText(JNIEnv *env, jobject hoge, const std::string &str) {
+//    JNIAccess_Obj_SetStringField(env, HOGE_CLASS_NAME, hoge, "text", str);
+//}
+//
+//static void Hoge_setNumber(JNIEnv *env, jobject hoge, int16_t num) {
+//    JNIAccess_Obj_SetIntField(env, HOGE_CLASS_NAME, hoge, "number", num);
+//}
 
 static void Hoge_addPoint(JNIEnv *env, jobject hoge, int16_t x, int16_t y) {
     jclass cls = env->FindClass(HOGE_CLASS_NAME);
@@ -36,11 +36,15 @@ static void Hoge_addPoint(JNIEnv *env, jobject hoge, int16_t x, int16_t y) {
 extern "C" jint
 Java_org_nunocky_jnisample01_NativeLib_callJNI(JNIEnv *env, jclass clazz, jobject hoge) {
 
+    JNIAccessObj jniHoge(env, HOGE_CLASS_NAME, hoge);
+
     // hoge.text = "Hello World"
-    Hoge_setText(env, hoge, "Hello World");
+//    Hoge_setText(env, hoge, "Hello World");
+    jniHoge.setStringField("text", "Hello World");
 
     // hoge.number = 12345
-    Hoge_setNumber(env, hoge, 12345);
+//    Hoge_setNumber(env, hoge, 12345);
+    jniHoge.setIntField("number", 12345);
 
     // hoge.points.add (1,2)
     // hoge.points.add (3,4)
